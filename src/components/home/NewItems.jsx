@@ -65,7 +65,6 @@ const NewItems = () => {
   const [loading, setLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date().getTime());
 
-  // Function to format expiry date as countdown
   const formatCountdown = (expiryDate) => {
     if (!expiryDate) return "";
     
@@ -79,7 +78,6 @@ const NewItems = () => {
     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
     
-    // Don't show countdown if all values are 0
     if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
       return "";
     }
@@ -106,7 +104,6 @@ const NewItems = () => {
     fetchData();
   }, []);
 
-  // Update countdown every second
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().getTime());
