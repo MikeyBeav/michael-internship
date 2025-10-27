@@ -6,6 +6,7 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Countdown from "../UI/Countdown";
 
 
 const CustomPrevArrow = ({ onClick }) => (
@@ -63,31 +64,6 @@ const CustomNextArrow = ({ onClick }) => (
 const NewItems = () => {
   const [newItems, setNewItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentTime, setCurrentTime] = useState(new Date().getTime());
-
-  const formatCountdown = (expiryDate) => {
-    if (!expiryDate) return "";
-    
-    const expiry = new Date(expiryDate).getTime();
-    const timeDiff = expiry - currentTime;
-    
-    if (timeDiff <= 0) return "Expired";
-    
-    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-    
-    if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
-      return "";
-    }
-    
-    if (days > 0) {
-      return `${days}d ${hours}h ${minutes}m`;
-    } else {
-      return `${hours}h ${minutes}m ${seconds}s`;
-    }
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -102,14 +78,6 @@ const NewItems = () => {
     };
 
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date().getTime());
-    }, 1000);
-
-    return () => clearInterval(timer);
   }, []);
 
   const sliderSettings = {
@@ -151,7 +119,7 @@ const NewItems = () => {
   };
 
   return (
-    <section id="section-items" className="no-bottom">
+    <section id="section-items" className="no-bottom" data-aos="fade" data-aos-delay="0.4s">
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
@@ -173,22 +141,38 @@ const NewItems = () => {
                 }
               `
             }} />
+            <style dangerouslySetInnerHTML={{
+              __html: `
+                .skeleton {
+                  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+                  background-size: 200% 100%;
+                  animation: loading 1.5s infinite;
+                }
+                @keyframes loading {
+                  0% { background-position: 200% 0; }
+                  100% { background-position: -200% 0; }
+                }
+              `
+            }} />
             {loading ? (
               <Slider {...sliderSettings}>
                 {new Array(8).fill(0).map((_, index) => (
                   <div key={index} className="px-2">
                     <div className="nft__item">
                       <div className="author_list_pp">
-                        <div style={{ width: '50px', height: '50px', backgroundColor: '#f0f0f0', borderRadius: '50%' }}></div>
+                        <div className="skeleton" style={{ width: '50px', height: '50px', borderRadius: '50%' }}></div>
                       </div>
-                      <div style={{ height: '20px', backgroundColor: '#f0f0f0', borderRadius: '4px', margin: '10px 0' }}></div>
+                      <div className="skeleton" style={{ height: '16px', borderRadius: '4px', margin: '10px 0', width: '80px' }}></div>
 
                       <div className="nft__item_wrap">
-                        <div style={{ height: '300px', backgroundColor: '#f0f0f0', borderRadius: '8px' }}></div>
+                        <div className="skeleton" style={{ height: '300px', borderRadius: '12px' }}></div>
                       </div>
                       <div className="nft__item_info">
-                        <div style={{ height: '20px', backgroundColor: '#f0f0f0', borderRadius: '4px', marginBottom: '8px' }}></div>
-                        <div style={{ height: '16px', backgroundColor: '#f0f0f0', borderRadius: '4px', width: '60%' }}></div>
+                        <div className="skeleton" style={{ height: '24px', borderRadius: '4px', marginBottom: '8px' }}></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <div className="skeleton" style={{ height: '20px', borderRadius: '4px', width: '60px' }}></div>
+                          <div className="skeleton" style={{ height: '16px', borderRadius: '4px', width: '40px' }}></div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -201,7 +185,7 @@ const NewItems = () => {
                     <div className="nft__item">
                       <div className="author_list_pp">
                         <Link
-                          to="/author"
+                          to={`/author/${item.authorId || item.id || index}`}
                           data-bs-toggle="tooltip"
                           data-bs-placement="top"
                           title={`Creator: ${item.authorName || 'Unknown'}`}
@@ -210,9 +194,7 @@ const NewItems = () => {
                           <i className="fa fa-check"></i>
                         </Link>
                       </div>
-                      {formatCountdown(item.expiryDate) && (
-                        <div className="de_countdown">{formatCountdown(item.expiryDate)}</div>
-                      )}
+                      <Countdown expiryDate={item.expiryDate} />
 
                       <div className="nft__item_wrap">
                         <div className="nft__item_extra">
@@ -233,7 +215,7 @@ const NewItems = () => {
                           </div>
                         </div>
 
-                        <Link to="/item-details">
+                        <Link to={`/item-details/${item.nftId || item.id || index}`}>
                           <img
                             src={item.nftImage || nftImage}
                             className="lazy nft__item_preview"
@@ -242,7 +224,7 @@ const NewItems = () => {
                         </Link>
                       </div>
                       <div className="nft__item_info">
-                        <Link to="/item-details">
+                        <Link to={`/item-details/${item.nftId || item.id || index}`}>
                           <h4>{item.title || "Untitled NFT"}</h4>
                         </Link>
                         <div className="nft__item_price">{item.price || "0.00"} ETH</div>

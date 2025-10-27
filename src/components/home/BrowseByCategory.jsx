@@ -13,37 +13,37 @@ const BrowseByCategory = () => {
             </div>
           </div>
           <div className="col-md-2 col-sm-4 col-6 mb-sm-30">
-            <Link to="/explore" className="icon-box style-2 rounded">
+            <Link to="/explore" className="icon-box style-2 rounded" data-aos="fade-right" data-aos-delay="0.2s">
               <i className="fa fa-image"></i>
               <span>Art</span>
             </Link>
           </div>
           <div className="col-md-2 col-sm-4 col-6 mb-sm-30">
-            <Link to="/explore" className="icon-box style-2 rounded">
+            <Link to="/explore" className="icon-box style-2 rounded" data-aos="fade-right" data-aos-delay="0.4s">
               <i className="fa fa-music"></i>
               <span>Music</span>
             </Link>
           </div>
           <div className="col-md-2 col-sm-4 col-6 mb-sm-30">
-            <Link to="/explore" className="icon-box style-2 rounded">
+            <Link to="/explore" className="icon-box style-2 rounded" data-aos="fade-right" data-aos-delay="0.6s">
               <i className="fa fa-search"></i>
               <span>Domain Names</span>
             </Link>
           </div>
           <div className="col-md-2 col-sm-4 col-6 mb-sm-30">
-            <Link to="/explore" className="icon-box style-2 rounded">
+            <Link to="/explore" className="icon-box style-2 rounded" data-aos="fade-right" data-aos-delay="0.8s">
               <i className="fa fa-globe"></i>
               <span>Virtual Worlds</span>
             </Link>
           </div>
           <div className="col-md-2 col-sm-4 col-6 mb-sm-30">
-            <Link to="/explore" className="icon-box style-2 rounded">
+            <Link to="/explore" className="icon-box style-2 rounded" data-aos="fade-right" data-aos-delay="1s">
               <i className="fa fa-vcard"></i>
               <span>Trading Cards</span>
             </Link>
           </div>
           <div className="col-md-2 col-sm-4 col-6 mb-sm-30">
-            <Link to="/explore" className="icon-box style-2 rounded">
+            <Link to="/explore" className="icon-box style-2 rounded" data-aos="fade-right" data-aos-delay="1.2s">
               <i className="fa fa-th"></i>
               <span>Collectibles</span>
             </Link>
